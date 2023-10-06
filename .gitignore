@@ -1,3 +1,4 @@
 pics/
 bots/
 .vscode/
+__pycache__/

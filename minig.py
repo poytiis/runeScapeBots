@@ -1,4 +1,4 @@
-from PIL import Image, ImageGrab, ImageStat
+from PIL import ImageGrab, ImageStat
 import autopy
 import time
 
