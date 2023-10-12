@@ -7,13 +7,13 @@ from datetime import datetime
 from tesseract import read_text_from_image
 from random import seed, random
 
-max_duration_between_fish = 12
+max_duration_between_fish = 14
 
 def main():
   is_fishing = False
   last_fish_time = 0
   fish_in_bag = 0
-  for _ in range(0,1000):
+  for _ in range(0,14000):
     if not is_fishing:
       spot_found = find_fishing_spot()
       last_fish_time = datetime.now()
@@ -24,15 +24,17 @@ def main():
     time.sleep(1)
 
 def empty_bag():
+  seed(1)
   for i in range (0, 5):
-    for j in range(0, 4):
+    for j in range(0, 4):       
+      random_num = random()
       autopy.mouse.move(1100 + 610 + j*40, 35 + 250 + 40*i)    
       autopy.mouse.click(button=autopy.mouse.Button.RIGHT)
       time.sleep(0.1)
       autopy.mouse.smooth_move(1100 + 610 + j*40,  35 + 250 + 35+ 40*i)
       time.sleep(0.1)
       autopy.mouse.click()
-      time.sleep(0.1)
+      time.sleep(random_num)
 
 def restart_fishing_if_needed(last_fish_time, last_fish_in_bag):
   inventort_pic = ImageGrab.grab(bbox=(1690, 240, 1850, 500))
@@ -106,7 +108,7 @@ def find_fishing_spot():
   z = np.polyfit(np.array(x_points), np.array(y_points), 9)
   p = np.poly1d(z)
 
-  x_points = [ *range(100, 500, 25)]
+  x_points = [ *range(50, 500, 25)]
   y_points = []
 
   for x in x_points:
@@ -130,7 +132,7 @@ def find_fishing_spot():
 
     valid_words = ['Small', 'Net', 'Fishing', 'spot']
 
-    for word  in valid_words:
+    for word in valid_words:
       if word in text:
         autopy.mouse.click()
         return True
