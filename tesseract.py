@@ -10,7 +10,7 @@ def read_text_from_image(image):
   return text[:-1]
     
 if __name__ == "__main__":
-  image_path = r"./pics/text_area.png"
+  image_path = r"./pics/h.png"
   img = Image.open(image_path)
   text = read_text_from_image(img)
   print(text)
