@@ -6,9 +6,14 @@ import time
 from random import seed, random
 
 def store_all_items():
+  is_bank_open = open_bank_window()
+  if is_bank_open:
+    store_all_items_ui_clicking()
+
+def store_all_items_ui_clicking():
   pyautogui.moveTo(1550, 350)
   pyautogui.click()
-  time.sleep(1.5)
+  time.sleep(1.5 + random())
   pyautogui.moveTo(1595, 40)
   pyautogui.click()
   time.sleep(1)
@@ -32,12 +37,28 @@ def open_bank_window():
     for word in valid_words:
       if word in text:
         pyautogui.click()
-        time.sleep(3)
+        time.sleep(3 + random())
         return True
   return False
 
+def store_all_items_and_take_one_item(item: str):
+  open_bank_window()
+  if item == 'tuna':
+    pyautogui.moveTo(1550, 350)
+    pyautogui.click()
+    time.sleep(1.5 + random())
+    pyautogui.moveTo(1480, 160)
+    pyautogui.click(button='right')
+    time.sleep(0.6 + random())
+    pyautogui.move(0, 110)
+    time.sleep(0.3 + random())
+    pyautogui.click()
+    time.sleep(1 + random())
+    pyautogui.moveTo(1595, 40)
+    pyautogui.click()
+    time.sleep(1 + random())
+
+
 
 if __name__ == "__main__":
-  is_bank_open = open_bank_window()
-  if is_bank_open:
-    store_all_items()
+  store_all_items_and_take_one_item('tuna')

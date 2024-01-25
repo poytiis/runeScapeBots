@@ -46,10 +46,7 @@ def check_target_health():
 def find_target():
     screen = ImageGrab.grab(bbox=(910, 0, 1900, 620))
     play_view = screen.crop(box=(0, 30, 650, 450))
-
     play_view_numpy = np.array(play_view)
-    play_view_cv2 = cv2.cvtColor(play_view_numpy, cv2.COLOR_RGB2BGR)
-
     play_view_hsv  = cv2.cvtColor(play_view_numpy, cv2.COLOR_RGB2HSV)
 
     lower_pink = np.array([150,100,100])

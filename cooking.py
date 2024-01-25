@@ -1,51 +1,28 @@
-from PIL import Image, ImageGrab, ImageStat
-import autopy
 import time
-import cv2
-import numpy
+import pyautogui
+from object import click_nearest_object
+from navigation import navigate_to_location, look_at_compass_point_direction
+from bank import store_all_items_and_take_one_item
+from random import seed, random
 
 def main():
-  
-  for i in range(0,1):
-    print(i)
-    pic = ImageGrab.grab(bbox=(1100, 35, 1920, 600))
-    # pic.save('./pics/view.png')
-    corner_map = pic.crop(box=(600, 5, 745, 175))
-    range_pic = corner_map.crop(box=(51,69, 65, 82))
-    # range_pic.save('./pics/range_icon.png')
-  
-    c = corner_map.convert('RGB')   
-    open_cv_image = numpy.array(c) 
-    open_cv_image = open_cv_image[:, :, ::-1].copy() 
-    cv2.imwrite('./pics/shot.png',open_cv_image)
-    range_icon = cv2.imread('./pics/range_icon.png')
-    templ = cv2.imread('./pics/range_icon.png')
-    view = cv2.imread('./pics/view.png')
-    view = open_cv_image
-    result = cv2.matchTemplate(view, templ, cv2.TM_SQDIFF_NORMED)
-    # cv2.imshow('after matching',result)
-    # cv2.waitKey(0)
-    cv2.normalize( result, result, 0, 1, cv2.NORM_MINMAX, -1 )
-    _minVal, _maxVal, minLoc, maxLoc = cv2.minMaxLoc(result, None)
-    matchLoc = minLoc
-    print(matchLoc)
+  seed(1)
+  for _ in range(0,150):
+      fire_found = click_nearest_object()
+      if fire_found:
+        time.sleep(3)
+        pyautogui.moveTo(1370, 430)
+        pyautogui.click()
+        time.sleep(62 +  3 * random())
+        navigate_to_location('bank')
+        look_at_compass_point_direction('West')
+        time.sleep(1)
+        store_all_items_and_take_one_item('tuna')
+        time.sleep(1)
+        navigate_to_location('fire')
 
-    img_display = view.copy()
+
     
-
-    image_window = "Source Image"
-    result_window = "Result window"
-    cv2.rectangle(img_display, matchLoc, (matchLoc[0] + templ.shape[0], matchLoc[1] + templ.shape[1]), (0,0,0), 2, 8, 0 )
-    cv2.rectangle(result, matchLoc, (matchLoc[0] + templ.shape[0], matchLoc[1] + templ.shape[1]), (0,0,0), 2, 8, 0 )
-    cv2.imshow(image_window, img_display)
-    cv2.imshow(result_window, result)
-    cv2.imwrite('./pics/result.png', result)
-
-    cv2.waitKey(0)
-    return 0
-    
-
-
 
 if __name__ == "__main__":
   main()
